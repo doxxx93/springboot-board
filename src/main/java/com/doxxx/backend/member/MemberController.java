@@ -27,7 +27,7 @@ public class MemberController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest request) {
+    public ResponseEntity<TokenResponse> signIn(@RequestBody @Valid SignInRequest request) {
         return ResponseEntity.ok(memberService.signIn(request));
     }
 }

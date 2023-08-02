@@ -55,6 +55,20 @@ class MemberControllerTest extends ApiTest {
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
             assertThat(response.jsonPath().getString("message")).isEqualTo("비밀번호는 8자 이상이어야 합니다.");
         }
+
+        @Test
+        @DisplayName("실패 - 이메일, 비밀번호 모두 형식이 아님")
+        void signUpFailByInvalidEmailAndPassword() {
+            final String email = "testtest.com";
+            final String password = "1234";
+            final var request = MemberSteps.회원가입요청_생성(email, password);
+
+            final var response = MemberSteps.회원가입요청(request);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            assertThat(response.jsonPath().getString("message")).contains("이메일은 @을 포함해야합니다.", "비밀번호는 8자 이상이어야 합니다.");
+
+        }
     }
 
     @Nested
@@ -73,6 +87,45 @@ class MemberControllerTest extends ApiTest {
             final var response = MemberSteps.로그인요청(request);
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        }
+
+        @Test
+        @DisplayName("실패 - 이메일 형식이 아님")
+        void signInFailByInvalidEmail() {
+            final String email = "test";
+            final String password = "password1234";
+            final var request = MemberSteps.로그인요청_생성(email, password);
+
+            final var response = MemberSteps.로그인요청(request);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            assertThat(response.jsonPath().getString("message")).isEqualTo("이메일은 @을 포함해야합니다.");
+        }
+
+        @Test
+        @DisplayName("실패 - 비밀번호 형식이 아님")
+        void signInFailByInvalidPassword() {
+            final String email = "test@test.com";
+            final String password = "1234";
+            final var request = MemberSteps.로그인요청_생성(email, password);
+
+            final var response = MemberSteps.로그인요청(request);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            assertThat(response.jsonPath().getString("message")).isEqualTo("비밀번호는 8자 이상이어야 합니다.");
+        }
+
+        @Test
+        @DisplayName("실패 - 이메일, 비밀번호 모두 형식이 아님")
+        void signUpFailByInvalidEmailAndPassword() {
+            final String email = "testtest.com";
+            final String password = "1234";
+            final var request = MemberSteps.로그인요청_생성(email, password);
+
+            final var response = MemberSteps.로그인요청(request);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            assertThat(response.jsonPath().getString("message")).contains("이메일은 @을 포함해야합니다.", "비밀번호는 8자 이상이어야 합니다.");
         }
     }
 }
