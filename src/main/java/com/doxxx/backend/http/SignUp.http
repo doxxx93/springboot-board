@@ -1,0 +1,7 @@
+POST {{context_path}}/members/signup
+Content-Type: application/json
+
+{
+  "email": "fsdafsd",
+  "password": "fa"
+}
