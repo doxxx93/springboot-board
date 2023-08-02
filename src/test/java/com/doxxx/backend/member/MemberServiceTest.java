@@ -34,17 +34,20 @@ class MemberServiceTest {
         @DisplayName("회원 가입 성공")
         void signUp() {
             final SignUpRequest request = new SignUpRequest("test@test.com", "password1234");
+
             final SignUpResponse response = memberService.signUp(request);
 
-            assertThat(response.email()).isEqualTo("test@test.com").describedAs("회원 가입 성공");
+            assertThat(response.email())
+                    .isEqualTo("test@test.com")
+                    .describedAs("회원 가입 성공");
         }
 
         @Test
         @DisplayName("회원 가입 실패 - 이미 가입한 회원")
         void signUpFailByDuplicatedEmail() {
             final SignUpRequest request = new SignUpRequest("test@test.com", "password1234");
-            memberService.signUp(request);
 
+            memberService.signUp(request);
             assertThatExceptionOfType(ApiException.class)
                     .isThrownBy(() -> memberService.signUp(request))
                     .withMessage("이미 존재하는 유저입니다. email: " + request.email());

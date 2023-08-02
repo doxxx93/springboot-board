@@ -35,11 +35,11 @@ class MemberControllerTest {
     @DisplayName("회원가입 성공")
     void signUpSuccess() {
         given()
-                .contentType(ContentType.JSON)
+            .contentType(ContentType.JSON)
                 .body(new SignUpRequest("test@test.com", "password1234"))
-                .when()
+        .when()
                 .post("members/signup")
-                .then()
+        .then()
                 .statusCode(201);
     }
 
@@ -49,9 +49,9 @@ class MemberControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(new SignUpRequest("test", "password1234"))
-                .when()
+        .when()
                 .post("members/signup")
-                .then()
+        .then()
                 .statusCode(400)
                 .body("message", equalTo("이메일은 @을 포함해야합니다."));
     }
@@ -62,9 +62,9 @@ class MemberControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(new SignUpRequest("test@test.com", "1234"))
-                .when()
+        .when()
                 .post("members/signup")
-                .then()
+        .then()
                 .statusCode(400)
                 .body("message", equalTo("비밀번호는 8자 이상이어야 합니다."));
     }

@@ -23,6 +23,6 @@ public class MemberService {
 
         Member member = request.toMember(passwordEncoder);
         memberRepository.save(member);
-        return SignUpResponse.of(member);
+        return SignUpResponse.from(member);
     }
 }
