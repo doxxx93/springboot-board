@@ -1,6 +1,7 @@
 package com.doxxx.backend.member;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -16,6 +17,12 @@ public class Member {
     private Authority authority = Authority.ROLE_MEMBER;
 
     protected Member() {
+    }
+
+    @Builder
+    public Member(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 
     public enum Authority {
