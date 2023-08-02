@@ -2,6 +2,16 @@ POST {{context_path}}/members/signup
 Content-Type: application/json
 
 {
-  "email": "fsdafsd",
-  "password": "fa"
+  "email": "test@test.com",
+  "password": "faasdfasdfsadf"
+}
+
+###
+
+POST {{context_path}}/members/signin
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "faasdfasdfsadf"
 }

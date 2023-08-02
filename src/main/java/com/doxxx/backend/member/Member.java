@@ -1,9 +1,6 @@
 package com.doxxx.backend.member;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,6 +13,9 @@ public class Member {
     private String email;
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority = Authority.ROLE_MEMBER;
+
     protected Member() {
     }
 
@@ -23,5 +23,9 @@ public class Member {
     public Member(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public enum Authority {
+        ROLE_MEMBER
     }
 }
