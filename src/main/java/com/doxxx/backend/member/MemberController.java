@@ -1,5 +1,6 @@
 package com.doxxx.backend.member;
 
+import com.doxxx.backend.token.TokenResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,5 +24,10 @@ public class MemberController {
     public ResponseEntity<SignUpResponse> signup(@RequestBody @Valid SignUpRequest request) {
         SignUpResponse signUpResponse = memberService.signUp(request);
         return ResponseEntity.created(URI.create("/members/" + signUpResponse.id())).build();
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest request) {
+        return ResponseEntity.ok(memberService.signIn(request));
     }
 }

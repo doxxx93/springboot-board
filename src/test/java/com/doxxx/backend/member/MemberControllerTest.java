@@ -1,71 +1,78 @@
 package com.doxxx.backend.member;
 
-import com.doxxx.backend.DatabaseCleanup;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeEach;
+import com.doxxx.backend.ApiTest;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("회원 컨트롤러, 실패 테스트는 요청 값 검증")
+class MemberControllerTest extends ApiTest {
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class MemberControllerTest {
     @Autowired
-    private DatabaseCleanup databaseCleanup;
+    MemberRepository memberRepository;
 
-    @LocalServerPort
-    private int port;
+    @Nested
+    @DisplayName("회원가입")
+    class SignUp {
+        @Test
+        @DisplayName("성공")
+        void signUpSuccess() {
+            final String email = "test@test.com";
+            final String password = "test1234";
+            final var request = MemberSteps.회원가입요청_생성(email, password);
 
-    @BeforeEach
-    void setUp() {
-        if (RestAssured.port == RestAssured.UNDEFINED_PORT) {
-            RestAssured.port = port;
-            databaseCleanup.afterPropertiesSet();
+            final var response = MemberSteps.회원가입요청(request);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         }
-        databaseCleanup.execute();
+
+        @Test
+        @DisplayName("실패 - 이메일 형식이 아님")
+        void signUpFailByInvalidEmail() {
+            final String email = "test";
+            final String password = "password1234";
+            final var request = MemberSteps.회원가입요청_생성(email, password);
+
+            final var response = MemberSteps.회원가입요청(request);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            assertThat(response.jsonPath().getString("message")).isEqualTo("이메일은 @을 포함해야합니다.");
+        }
+
+        @Test
+        @DisplayName("실패 - 비밀번호 형식이 아님")
+        void signUpFailByInvalidPassword() {
+            final String email = "test@test.com";
+            final String password = "1234";
+            final var request = MemberSteps.회원가입요청_생성(email, password);
+
+            final var response = MemberSteps.회원가입요청(request);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            assertThat(response.jsonPath().getString("message")).isEqualTo("비밀번호는 8자 이상이어야 합니다.");
+        }
     }
 
-    @Test
-    @DisplayName("회원가입 성공")
-    void signUpSuccess() {
-        given()
-            .contentType(ContentType.JSON)
-                .body(new SignUpRequest("test@test.com", "password1234"))
-        .when()
-                .post("members/signup")
-        .then()
-                .statusCode(201);
-    }
+    @Nested
+    @DisplayName("로그인")
+    class SignIn {
 
-    @Test
-    @DisplayName("회원가입 실패 - 이메일 형식이 아님")
-    void signUpFailByInvalidEmail() {
-        given()
-                .contentType(ContentType.JSON)
-                .body(new SignUpRequest("test", "password1234"))
-        .when()
-                .post("members/signup")
-        .then()
-                .statusCode(400)
-                .body("message", equalTo("이메일은 @을 포함해야합니다."));
-    }
+        @Test
+        @DisplayName("로그인 성공")
+        void signInSuccess() {
+            final String email = "test@test.com";
+            final String password = "password1234";
+            MemberSteps.회원가입요청(MemberSteps.회원가입요청_생성(email, password));
 
-    @Test
-    @DisplayName("회원 가입 실패 - 비밀번호 형식이 아님")
-    void signUpFailByInvalidPassword() {
-        given()
-                .contentType(ContentType.JSON)
-                .body(new SignUpRequest("test@test.com", "1234"))
-        .when()
-                .post("members/signup")
-        .then()
-                .statusCode(400)
-                .body("message", equalTo("비밀번호는 8자 이상이어야 합니다."));
+            final var request = MemberSteps.로그인요청_생성(email, password);
+
+            final var response = MemberSteps.로그인요청(request);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        }
     }
 }
