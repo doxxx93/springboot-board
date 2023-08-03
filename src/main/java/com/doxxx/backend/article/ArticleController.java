@@ -19,11 +19,16 @@ public class ArticleController {
 
     @PostMapping("")
     public ResponseEntity<CreateArticleResponse> create(@RequestBody @Valid CreateArticleRequest request) {
-        return ResponseEntity.created(URI.create("/articles" + articleService.create(SecurityUtil.getCurrentMemberId(),request).id())).build();
+        return ResponseEntity.created(URI.create("/articles" + articleService.create(SecurityUtil.getCurrentMemberId(), request).id())).build();
     }
 
     @GetMapping("")
     public ResponseEntity<GetArticleListResponse> list(@ModelAttribute GetArticleListRequest request) {
         return ResponseEntity.ok(articleService.list(request));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GetArticleResponse> get(@PathVariable Long id) {
+        return ResponseEntity.ok(articleService.get(id));
     }
 }

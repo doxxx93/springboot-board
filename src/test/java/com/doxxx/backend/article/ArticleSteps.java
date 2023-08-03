@@ -32,6 +32,11 @@ public class ArticleSteps {
                 .path("/articles").build());
     }
 
+    public static ExtractableResponse<Response> 게시글조회요청(final Long id) {
+        return RestAssuredController.doGet(RequestData.builder()
+                .path("/articles/" + id).build());
+    }
+
     public static MultiValueMap<String, String> authorizationHeader(String accessToken) {
         MultiValueMap<String, String> header = getDefaultHeader();
         header.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);

@@ -121,4 +121,39 @@ public class ArticleControllerTest {
             assertThat(response.jsonPath().getList("articleList").size()).isEqualTo(count % size);
         }
     }
+
+    @Nested
+    @DisplayName("조회")
+    class findById {
+        @BeforeEach
+        void setUp() {
+            final String email = "test@test.com";
+            final String password = "test1234";
+            MemberSteps.회원가입요청(MemberSteps.회원가입요청_생성(email, password));
+            accessToken = MemberSteps.로그인요청(MemberSteps.로그인요청_생성(email, password)).jsonPath().getString("accessToken");
+            final String title = "제목";
+            final String content = "내용";
+            final var request = ArticleSteps.게시글생성요청_생성(title, content);
+            ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
+
+            final String anotherTitle = "제목";
+            final String anotherContent = "내용";
+            final var anotherRequest = ArticleSteps.게시글생성요청_생성(anotherTitle, anotherContent);
+            ArticleSteps.게시글생성요청(anotherRequest, ArticleSteps.authorizationHeader(accessToken));
+            for (int i = 0; i < 15; i++) {
+                ArticleSteps.게시글생성요청(anotherRequest, ArticleSteps.authorizationHeader(accessToken));
+            }
+        }
+
+        @Test
+        @DisplayName("성공")
+        void findByIdSuccess() {
+            final Long id = 1L;
+            final var response = ArticleSteps.게시글조회요청(id);
+
+            assertThat(response.statusCode()).isEqualTo(200);
+            assertThat(response.jsonPath().getString("title")).isEqualTo("제목");
+            assertThat(response.jsonPath().getString("content")).isEqualTo("내용");
+        }
+    }
 }
