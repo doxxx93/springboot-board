@@ -56,4 +56,9 @@ public class MemberService {
     public Optional<Member> findOptionalByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
+
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(ErrorCode.MEMBER_NOT_FOUND, "사용자 정보가 없습니다. id: " + memberId));
+    }
 }

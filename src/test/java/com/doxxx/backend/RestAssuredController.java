@@ -4,7 +4,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.Method;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.springframework.http.MediaType;
 
 public class RestAssuredController {
     public static ExtractableResponse<Response> doPost(RequestData data) {
@@ -26,8 +25,8 @@ public class RestAssuredController {
     private static ExtractableResponse<Response> doRequest(Method method, RequestData data) {
         return RestAssured
                 .given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(data.request())
+                .headers(data.header())
+                .body(data.body())
                 .when()
                 .request(method, data.path())
                 .then().log().all().extract();
