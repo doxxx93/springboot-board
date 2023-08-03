@@ -20,12 +20,12 @@ public class ArticleService {
     public CreateArticleResponse create(Long memberId, CreateArticleRequest request) {
         Member member = memberService.findById(memberId);
         Article article = articleRepository.save(request.toEntity(member));
-        return CreateArticleResponse.of(article);
+        return CreateArticleResponse.from(article);
     }
 
     public GetArticleListResponse list(GetArticleListRequest request) {
         Pageable pageable = Pageable.ofSize(request.size()).withPage(request.page());
-        return GetArticleListResponse.of(articleRepository.findAll(pageable));
+        return GetArticleListResponse.from(articleRepository.findAll(pageable));
     }
 
     public GetArticleResponse get(Long id) {
@@ -42,6 +42,7 @@ public class ArticleService {
             throw new ApiException(ErrorCode.FORBIDDEN, "자신의 게시글만 수정할 수 있습니다.");
         }
         article.update(request);
+        articleRepository.save(article);
         return UpdateArticleResponse.from(article);
     }
 }
