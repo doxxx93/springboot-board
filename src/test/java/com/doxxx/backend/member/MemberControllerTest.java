@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("회원 컨트롤러, 실패 테스트는 요청 값 검증")
+@DisplayName("회원 컨트롤러 테스트, 실패 테스트는 요청 값 검증")
 @ApiTest
 class MemberControllerTest {
 
