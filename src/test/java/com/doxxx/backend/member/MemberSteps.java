@@ -1,20 +1,16 @@
 package com.doxxx.backend.member;
 
-import io.restassured.RestAssured;
+import com.doxxx.backend.RequestData;
+import com.doxxx.backend.RestAssuredController;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.springframework.http.MediaType;
 
 public class MemberSteps {
 
     public static ExtractableResponse<Response> 회원가입요청(final SignUpRequest request) {
-        return RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(request)
-                .when()
-                .post("/members/signup")
-                .then()
-                .log().all().extract();
+        return RestAssuredController.doPost(RequestData.builder()
+                .request(request)
+                .path("/members/signup").build());
     }
 
     public static SignUpRequest 회원가입요청_생성(final String email, final String password) {
@@ -22,13 +18,9 @@ public class MemberSteps {
     }
 
     public static ExtractableResponse<Response> 로그인요청(final SignInRequest request) {
-        return RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(request)
-                .when()
-                .post("/members/signin")
-                .then()
-                .log().all().extract();
+        return RestAssuredController.doPost(RequestData.builder()
+                .request(request)
+                .path("/members/signin").build());
     }
 
     public static SignInRequest 로그인요청_생성(final String email, final String password) {
