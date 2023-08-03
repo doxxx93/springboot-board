@@ -1,6 +1,6 @@
 package com.doxxx.backend.member;
 
-import com.doxxx.backend.DatabaseCleanup;
+import com.doxxx.backend.ApiTest;
 import com.doxxx.backend.jwt.TokenProvider;
 import com.doxxx.backend.token.TokenResponse;
 import com.doxxx.backend.web.exception.ApiException;
@@ -9,26 +9,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-@SpringBootTest
 @DisplayName("회원 서비스 테스트")
+@ApiTest
 class MemberServiceTest {
-    @Autowired
-    private DatabaseCleanup databaseCleanup;
 
     @Autowired
     private TokenProvider tokenProvider;
-
-    @BeforeEach
-    void setUp() {
-        databaseCleanup.afterPropertiesSet();
-        databaseCleanup.execute();
-    }
 
     @Autowired
     private MemberService memberService;
@@ -54,6 +45,7 @@ class MemberServiceTest {
                     .isEqualTo("test@test.com")
                     .describedAs("회원 가입 성공");
         }
+
         @Test
         @DisplayName("회원 가입 실패 - 이미 가입한 회원")
         void signUpFailByDuplicatedEmail() {
@@ -122,3 +114,4 @@ class MemberServiceTest {
         }
     }
 }
+
