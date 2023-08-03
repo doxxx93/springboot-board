@@ -4,6 +4,7 @@ import com.doxxx.backend.RequestData;
 import com.doxxx.backend.RestAssuredController;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.springframework.util.MultiValueMap;
 
 public class ArticleSteps {
 
@@ -11,9 +12,10 @@ public class ArticleSteps {
         return new CreateArticleRequest(title, content);
     }
 
-    public static ExtractableResponse<Response> 게시글생성요청(final CreateArticleRequest request) {
+    public static ExtractableResponse<Response> 게시글생성요청(final CreateArticleRequest request, MultiValueMap<String, String> header) {
         return RestAssuredController.doPost(RequestData.builder()
-                .request(request)
+                .header(header)
+                .body(request.makeBody())
                 .path("/articles").build());
     }
 }
