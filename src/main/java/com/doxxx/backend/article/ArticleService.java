@@ -33,4 +33,15 @@ public class ArticleService {
                 .orElseThrow(() -> new ApiException(ErrorCode.ARTICLE_NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
         return GetArticleResponse.from(article);
     }
+
+    public UpdateArticleResponse update(Long memberId, Long articleId, UpdateArticleRequest request) {
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new ApiException(ErrorCode.ARTICLE_NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
+        Member member = memberService.findById(memberId);
+        if (!article.isAuthor(member)) {
+            throw new ApiException(ErrorCode.FORBIDDEN, "자신의 게시글만 수정할 수 있습니다.");
+        }
+        article.update(request);
+        return UpdateArticleResponse.from(article);
+    }
 }

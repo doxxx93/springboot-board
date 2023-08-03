@@ -124,7 +124,7 @@ public class ArticleControllerTest {
 
     @Nested
     @DisplayName("조회")
-    class findById {
+    class FindById {
         @BeforeEach
         void setUp() {
             final String email = "test@test.com";
@@ -154,6 +154,78 @@ public class ArticleControllerTest {
             assertThat(response.statusCode()).isEqualTo(200);
             assertThat(response.jsonPath().getString("title")).isEqualTo("제목");
             assertThat(response.jsonPath().getString("content")).isEqualTo("내용");
+        }
+    }
+
+    @Nested
+    @DisplayName("수정")
+    class Update {
+        @BeforeEach
+        void setUp() {
+            final String email = "test@test.com";
+            final String password = "test1234";
+            MemberSteps.회원가입요청(MemberSteps.회원가입요청_생성(email, password));
+            accessToken = MemberSteps.로그인요청(MemberSteps.로그인요청_생성(email, password)).jsonPath().getString("accessToken");
+            final String title = "제목";
+            final String content = "내용";
+            final var request = ArticleSteps.게시글생성요청_생성(title, content);
+            ArticleSteps.게시글생성요청(request, accessToken);
+        }
+
+        @Test
+        @DisplayName("성공")
+        void updateSuccess() {
+            final Long id = 1L;
+            final String title = "제목2";
+            final String content = "내용2";
+            final var request = ArticleSteps.게시글수정요청_생성(title, content);
+
+            final var response = ArticleSteps.게시글수정요청(id, request, accessToken);
+
+            assertThat(response.statusCode()).isEqualTo(200);
+            assertThat(response.jsonPath().getLong("id")).isEqualTo(id);
+        }
+
+        @Test
+        @DisplayName("실패 - 제목이 비어있음")
+        void updateFailByInvalidEmail() {
+            final Long id = 1L;
+            final String title = "";
+            final String content = "내용";
+            final var request = ArticleSteps.게시글수정요청_생성(title, content);
+
+            final var response = ArticleSteps.게시글수정요청(id, request, accessToken);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            assertThat(response.jsonPath().getString("message")).isEqualTo("제목이 비어있습니다.");
+        }
+
+        @Test
+        @DisplayName("실패 - 내용이 비어있음")
+        void updateFailByInvalidPassword() {
+            final Long id = 1L;
+            final String title = "제목";
+            final String content = "";
+            final var request = ArticleSteps.게시글수정요청_생성(title, content);
+
+            final var response = ArticleSteps.게시글수정요청(id, request, accessToken);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            assertThat(response.jsonPath().getString("message")).isEqualTo("내용이 비어있습니다.");
+        }
+
+        @Test
+        @DisplayName("실패 - 제목, 내용이 비어있음")
+        void updateFailByInvalidEmailAndPassword() {
+            final Long id = 1L;
+            final String title = "";
+            final String content = "";
+            final var request = ArticleSteps.게시글수정요청_생성(title, content);
+
+            final var response = ArticleSteps.게시글수정요청(id, request, accessToken);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            assertThat(response.jsonPath().getString("message")).contains("제목이 비어있습니다.", "내용이 비어있습니다.");
         }
     }
 }

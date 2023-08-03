@@ -32,4 +32,15 @@ public class ArticleSteps {
         return RestAssuredController.doGet(RequestData.builder()
                 .path("/articles/" + id).build());
     }
+
+    public static UpdateArticleRequest 게시글수정요청_생성(final String title, final String content) {
+        return new UpdateArticleRequest(title, content);
+    }
+
+    public static ExtractableResponse<Response> 게시글수정요청(final Long id, final UpdateArticleRequest request, String accessToken) {
+        return RestAssuredController.doPut(RequestData.builder()
+                .accessToken(accessToken)
+                .body(request.makeBody())
+                .path("/articles/" + id).build());
+    }
 }
