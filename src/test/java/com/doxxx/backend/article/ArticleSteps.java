@@ -26,9 +26,8 @@ public class ArticleSteps {
         return new GetArticleListRequest(page, size);
     }
 
-    public static ExtractableResponse<Response> 게시글리스트조회요청(final GetArticleListRequest request, MultiValueMap<String, String> header) {
+    public static ExtractableResponse<Response> 게시글리스트조회요청(final GetArticleListRequest request) {
         return RestAssuredController.doGet(RequestData.builder()
-                .header(header)
                 .queryParams(request.makeQueryParams())
                 .path("/articles").build());
     }

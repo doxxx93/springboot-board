@@ -115,7 +115,7 @@ public class ArticleControllerTest {
             final int size = 10;
             final var request = ArticleSteps.게시글리스트조회요청_생성(page, size);
 
-            final var response = ArticleSteps.게시글리스트조회요청(request, ArticleSteps.getDefaultHeader());
+            final var response = ArticleSteps.게시글리스트조회요청(request);
             long count = articleRepository.count();
             assertThat(response.statusCode()).isEqualTo(200);
             assertThat(response.jsonPath().getList("articleList").size()).isEqualTo(count % size);
