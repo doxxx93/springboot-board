@@ -38,7 +38,7 @@ public class ArticleControllerTest {
             final String title = "제목";
             final String content = "내용";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
-            final var response = ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
+            final var response = ArticleSteps.게시글생성요청(request, accessToken);
 
             assertThat(response.statusCode()).isEqualTo(201);
         }
@@ -50,7 +50,7 @@ public class ArticleControllerTest {
             final String content = "내용";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
 
-            final var response = ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
+            final var response = ArticleSteps.게시글생성요청(request, accessToken);
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
             assertThat(response.jsonPath().getString("message")).isEqualTo("제목이 비어있습니다.");
@@ -63,7 +63,7 @@ public class ArticleControllerTest {
             final String content = "";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
 
-            final var response = ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
+            final var response = ArticleSteps.게시글생성요청(request, accessToken);
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
             assertThat(response.jsonPath().getString("message")).isEqualTo("내용이 비어있습니다.");
@@ -76,7 +76,7 @@ public class ArticleControllerTest {
             final String content = "";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
 
-            final var response = ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
+            final var response = ArticleSteps.게시글생성요청(request, accessToken);
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
             assertThat(response.jsonPath().getString("message")).contains("제목이 비어있습니다.", "내용이 비어있습니다.");
@@ -97,14 +97,14 @@ public class ArticleControllerTest {
             final String title = "제목";
             final String content = "내용";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
-            ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
+            ArticleSteps.게시글생성요청(request, accessToken);
 
             final String anotherTitle = "제목";
             final String anotherContent = "내용";
             final var anotherRequest = ArticleSteps.게시글생성요청_생성(anotherTitle, anotherContent);
-            ArticleSteps.게시글생성요청(anotherRequest, ArticleSteps.authorizationHeader(accessToken));
+            ArticleSteps.게시글생성요청(anotherRequest, accessToken);
             for (int i = 0; i < 15; i++) {
-                ArticleSteps.게시글생성요청(anotherRequest, ArticleSteps.authorizationHeader(accessToken));
+                ArticleSteps.게시글생성요청(anotherRequest, accessToken);
             }
         }
 
@@ -134,14 +134,14 @@ public class ArticleControllerTest {
             final String title = "제목";
             final String content = "내용";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
-            ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
+            ArticleSteps.게시글생성요청(request, accessToken);
 
             final String anotherTitle = "제목";
             final String anotherContent = "내용";
             final var anotherRequest = ArticleSteps.게시글생성요청_생성(anotherTitle, anotherContent);
-            ArticleSteps.게시글생성요청(anotherRequest, ArticleSteps.authorizationHeader(accessToken));
+            ArticleSteps.게시글생성요청(anotherRequest, accessToken);
             for (int i = 0; i < 15; i++) {
-                ArticleSteps.게시글생성요청(anotherRequest, ArticleSteps.authorizationHeader(accessToken));
+                ArticleSteps.게시글생성요청(anotherRequest, accessToken);
             }
         }
 

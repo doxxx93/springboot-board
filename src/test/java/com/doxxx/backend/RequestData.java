@@ -9,12 +9,15 @@ import org.springframework.util.MultiValueMap;
 import java.util.HashMap;
 
 @Builder
-public record RequestData(MultiValueMap<String, String> header, HashMap<String, String> body,
+public record RequestData(MultiValueMap<String, String> header, String accessToken, HashMap<String, String> body,
                           HashMap<String, String> queryParams, String path) {
 
     public RequestData {
         if (header == null) {
             header = DEFAULT_HEADER;
+        }
+        if (accessToken != null) {
+            header.addIfAbsent(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
         }
         if (body == null) {
             body = EMPTY_BODY;
