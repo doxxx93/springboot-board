@@ -3,8 +3,10 @@ package com.doxxx.backend.config;
 import com.doxxx.backend.jwt.JwtAccessDeniedHandler;
 import com.doxxx.backend.jwt.JwtAuthenticationEntryPoint;
 import com.doxxx.backend.jwt.JwtFilter;
+import com.doxxx.backend.member.Member;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -53,6 +55,7 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST,"/articles/**").hasAuthority(Member.Authority.ROLE_MEMBER.name())
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

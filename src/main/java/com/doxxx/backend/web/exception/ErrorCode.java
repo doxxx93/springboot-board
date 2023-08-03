@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     BAD_REQUEST(HttpStatus.BAD_REQUEST),
     BAD_CREDENTIALS(HttpStatus.UNAUTHORIZED),
+    FORBIDDEN(HttpStatus.FORBIDDEN),
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND),
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND),
     ALREADY_EXIST_MEMBER(HttpStatus.CONFLICT);

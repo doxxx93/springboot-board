@@ -15,15 +15,24 @@ public class Article {
 
     private String content;
 
-    protected Article() {
-    }
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
+    protected Article() {
+    }
 
     public Article(String title, String content, Member member) {
         this.title = title;
         this.content = content;
         this.member = member;
+    }
+
+    public boolean isAuthor(Member member) {
+        return this.member.equals(member);
+    }
+
+    public void update(UpdateArticleRequest request) {
+        this.title = request.title();
+        this.content = request.content();
     }
 }
