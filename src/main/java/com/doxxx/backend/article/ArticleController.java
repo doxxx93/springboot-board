@@ -1,5 +1,6 @@
 package com.doxxx.backend.article;
 
+import com.doxxx.backend.util.SecurityUtil;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,6 @@ public class ArticleController {
 
     @PostMapping("")
     public ResponseEntity<CreateArticleResponse> create(@RequestBody @Valid CreateArticleRequest request) {
-        return ResponseEntity.created(URI.create("/aricles" + articleService.create(request).id())).build();
+        return ResponseEntity.created(URI.create("/articles" + articleService.create(SecurityUtil.getCurrentMemberId(),request).id())).build();
     }
 }
