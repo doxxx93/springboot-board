@@ -13,11 +13,13 @@ public record RequestData(MultiValueMap<String, String> header, String accessTok
                           HashMap<String, String> queryParams, String path) {
 
     public RequestData {
-        if (header == null) {
-            header = DEFAULT_HEADER;
-        }
-        if (accessToken != null) {
-            header.addIfAbsent(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        if (header == null || accessToken != null) {
+            MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<>();
+            headerMap.addAll(DEFAULT_HEADER);
+            if (accessToken != null) {
+                headerMap.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+            }
+            header = headerMap;
         }
         if (body == null) {
             body = EMPTY_BODY;
