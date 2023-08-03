@@ -39,14 +39,34 @@ public class ArticleServiceTest {
             assertThat(response).isNotNull();
         }
 
-        private Long newMemberId() {
-            final String email = "test@test.com";
-            final String password = "test1234";
-            Member member = Member.builder()
-                    .email(email)
-                    .password(password)
-                    .build();
-            return memberRepository.save(member).getId();
+    }
+
+    @Nested
+    @DisplayName("리스트 조회")
+    class FindAll {
+
+        @Test
+        @DisplayName("성공")
+        void findAllSuccess() {
+            final String title = "제목";
+            final String content = "내용";
+            final var request = ArticleSteps.게시글생성요청_생성(title, content);
+
+            Long memberId = newMemberId();
+
+            final var response = articleService.create(memberId, request);
+
+            assertThat(response).isNotNull();
         }
+    }
+
+    private Long newMemberId() {
+        final String email = "test@test.com";
+        final String password = "test1234";
+        Member member = Member.builder()
+                .email(email)
+                .password(password)
+                .build();
+        return memberRepository.save(member).getId();
     }
 }

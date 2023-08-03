@@ -7,11 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,7 +38,7 @@ public class ArticleControllerTest {
             final String title = "제목";
             final String content = "내용";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
-            final var response = ArticleSteps.게시글생성요청(request, getHeader());
+            final var response = ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
 
             assertThat(response.statusCode()).isEqualTo(201);
         }
@@ -54,7 +50,7 @@ public class ArticleControllerTest {
             final String content = "내용";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
 
-            final var response = ArticleSteps.게시글생성요청(request, getHeader());
+            final var response = ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
             assertThat(response.jsonPath().getString("message")).isEqualTo("제목이 비어있습니다.");
@@ -67,7 +63,7 @@ public class ArticleControllerTest {
             final String content = "";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
 
-            final var response = ArticleSteps.게시글생성요청(request, getHeader());
+            final var response = ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
             assertThat(response.jsonPath().getString("message")).isEqualTo("내용이 비어있습니다.");
@@ -80,7 +76,7 @@ public class ArticleControllerTest {
             final String content = "";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
 
-            final var response = ArticleSteps.게시글생성요청(request, getHeader());
+            final var response = ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
             assertThat(response.jsonPath().getString("message")).contains("제목이 비어있습니다.", "내용이 비어있습니다.");
@@ -101,14 +97,14 @@ public class ArticleControllerTest {
             final String title = "제목";
             final String content = "내용";
             final var request = ArticleSteps.게시글생성요청_생성(title, content);
-            ArticleSteps.게시글생성요청(request, getHeader());
+            ArticleSteps.게시글생성요청(request, ArticleSteps.authorizationHeader(accessToken));
 
             final String anotherTitle = "제목";
             final String anotherContent = "내용";
             final var anotherRequest = ArticleSteps.게시글생성요청_생성(anotherTitle, anotherContent);
-            ArticleSteps.게시글생성요청(anotherRequest, getHeader());
+            ArticleSteps.게시글생성요청(anotherRequest, ArticleSteps.authorizationHeader(accessToken));
             for (int i = 0; i < 15; i++) {
-                ArticleSteps.게시글생성요청(anotherRequest, getHeader());
+                ArticleSteps.게시글생성요청(anotherRequest, ArticleSteps.authorizationHeader(accessToken));
             }
         }
 
@@ -119,17 +115,10 @@ public class ArticleControllerTest {
             final int size = 10;
             final var request = ArticleSteps.게시글리스트조회요청_생성(page, size);
 
-            final var response = ArticleSteps.게시글리스트조회요청(request, getHeader());
+            final var response = ArticleSteps.게시글리스트조회요청(request, ArticleSteps.getDefaultHeader());
             long count = articleRepository.count();
             assertThat(response.statusCode()).isEqualTo(200);
             assertThat(response.jsonPath().getList("articleList").size()).isEqualTo(count % size);
         }
-    }
-
-    private MultiValueMap<String, String> getHeader() {
-        MultiValueMap<String, String> header = new LinkedMultiValueMap<>();
-        header.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        header.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
-        return header;
     }
 }
