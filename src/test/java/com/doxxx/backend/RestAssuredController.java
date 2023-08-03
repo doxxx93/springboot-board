@@ -27,6 +27,7 @@ public class RestAssuredController {
                 .given().log().all()
                 .headers(data.header())
                 .body(data.body())
+                .params(data.queryParams())
                 .when()
                 .request(method, data.path())
                 .then().log().all().extract();

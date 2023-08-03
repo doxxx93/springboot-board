@@ -3,10 +3,7 @@ package com.doxxx.backend.article;
 import com.doxxx.backend.util.SecurityUtil;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -23,5 +20,10 @@ public class ArticleController {
     @PostMapping("")
     public ResponseEntity<CreateArticleResponse> create(@RequestBody @Valid CreateArticleRequest request) {
         return ResponseEntity.created(URI.create("/articles" + articleService.create(SecurityUtil.getCurrentMemberId(),request).id())).build();
+    }
+
+    @GetMapping("")
+    public ResponseEntity<GetArticleListResponse> list(@ModelAttribute GetArticleListRequest request) {
+        return ResponseEntity.ok(articleService.list(request));
     }
 }

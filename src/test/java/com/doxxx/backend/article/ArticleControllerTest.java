@@ -21,12 +21,11 @@ public class ArticleControllerTest {
 
     @Autowired
     ArticleRepository articleRepository;
+    String accessToken;
 
     @Nested
     @DisplayName("생성")
     class Create {
-
-        String accessToken;
 
         @BeforeEach
         void setUp() {
@@ -87,11 +86,50 @@ public class ArticleControllerTest {
             assertThat(response.jsonPath().getString("message")).contains("제목이 비어있습니다.", "내용이 비어있습니다.");
         }
 
-        private MultiValueMap<String, String> getHeader() {
-            MultiValueMap<String, String> header = new LinkedMultiValueMap<>();
-            header.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            header.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
-            return header;
+    }
+
+    @Nested
+    @DisplayName("리스트 조회")
+    class FindAll {
+
+        @BeforeEach
+        void setUp() {
+            final String email = "test@test.com";
+            final String password = "test1234";
+            MemberSteps.회원가입요청(MemberSteps.회원가입요청_생성(email, password));
+            accessToken = MemberSteps.로그인요청(MemberSteps.로그인요청_생성(email, password)).jsonPath().getString("accessToken");
+            final String title = "제목";
+            final String content = "내용";
+            final var request = ArticleSteps.게시글생성요청_생성(title, content);
+            ArticleSteps.게시글생성요청(request, getHeader());
+
+            final String anotherTitle = "제목";
+            final String anotherContent = "내용";
+            final var anotherRequest = ArticleSteps.게시글생성요청_생성(anotherTitle, anotherContent);
+            ArticleSteps.게시글생성요청(anotherRequest, getHeader());
+            for (int i = 0; i < 15; i++) {
+                ArticleSteps.게시글생성요청(anotherRequest, getHeader());
+            }
         }
+
+        @Test
+        @DisplayName("성공")
+        void findAllSuccess() {
+            final int page = 1;
+            final int size = 10;
+            final var request = ArticleSteps.게시글리스트조회요청_생성(page, size);
+
+            final var response = ArticleSteps.게시글리스트조회요청(request, getHeader());
+            long count = articleRepository.count();
+            assertThat(response.statusCode()).isEqualTo(200);
+            assertThat(response.jsonPath().getList("articleList").size()).isEqualTo(count % size);
+        }
+    }
+
+    private MultiValueMap<String, String> getHeader() {
+        MultiValueMap<String, String> header = new LinkedMultiValueMap<>();
+        header.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        header.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        return header;
     }
 }

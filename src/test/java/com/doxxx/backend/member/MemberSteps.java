@@ -7,15 +7,17 @@ import io.restassured.response.Response;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.HashMap;
+
 public class MemberSteps {
 
     public static ExtractableResponse<Response> 회원가입요청(final SignUpRequest request) {
         return RestAssuredController.doPost(RequestData.builder()
                 .header(getHeader())
+                .queryParams(new HashMap<>())
                 .body(request.makeBody())
                 .path("/members/signup").build());
     }
-
     public static SignUpRequest 회원가입요청_생성(final String email, final String password) {
         return new SignUpRequest(email, password);
     }
@@ -23,6 +25,7 @@ public class MemberSteps {
     public static ExtractableResponse<Response> 로그인요청(final SignInRequest request) {
         return RestAssuredController.doPost(RequestData.builder()
                 .header(getHeader())
+                .queryParams(new HashMap<>())
                 .body(request.makeBody())
                 .path("/members/signin").build());
     }
