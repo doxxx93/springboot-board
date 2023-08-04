@@ -121,6 +121,52 @@ public class ArticleServiceTest {
         }
     }
 
+    @Nested
+    @DisplayName("삭제")
+    class Delete {
+        Long memberId;
+        Long articleId;
+
+        @BeforeEach
+        void setUp() {
+            final String title = "제목";
+            final String content = "내용";
+            final var request = ArticleSteps.게시글생성요청_생성(title, content);
+
+            memberId = newMemberId();
+            articleId = articleService.create(memberId, request).id();
+        }
+
+        @Test
+        @DisplayName("성공")
+        @Transactional
+        void deleteSuccess() {
+            articleService.delete(memberId, articleId);
+        }
+
+        @Test
+        @DisplayName("실패 - 해당 게시글이 존재하지 않음")
+        @Transactional
+        void deleteFailBecauseArticleNotFound() {
+            final Long anotherArticleId = 100L;
+
+            assertThatExceptionOfType(ApiException.class)
+                    .isThrownBy(() -> articleService.delete(memberId, anotherArticleId))
+                    .withMessage("해당 게시글을 찾을 수 없습니다.");
+        }
+
+        @Test
+        @DisplayName("실패 - 자신의 게시글이 아님")
+        @Transactional
+        void deleteFailBecauseNotMyArticle() {
+            final Long anotherMemberId = newMemberId();
+
+            assertThatExceptionOfType(ApiException.class)
+                    .isThrownBy(() -> articleService.delete(anotherMemberId, articleId))
+                    .withMessage("자신의 게시글만 삭제할 수 있습니다.");
+        }
+    }
+
     private Long newMemberId() {
         final String email = "test@test.com";
         final String password = "test1234";
