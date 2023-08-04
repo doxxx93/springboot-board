@@ -29,20 +29,34 @@ public class ArticleService {
     }
 
     public GetArticleResponse get(Long id) {
-        Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new ApiException(ErrorCode.ARTICLE_NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
+        Article article = getArticleById(id);
         return GetArticleResponse.from(article);
     }
 
     public UpdateArticleResponse update(Long memberId, Long articleId, UpdateArticleRequest request) {
-        Article article = articleRepository.findById(articleId)
-                .orElseThrow(() -> new ApiException(ErrorCode.ARTICLE_NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
+        Article article = getArticleById(articleId);
         Member member = memberService.findById(memberId);
-        if (!article.isAuthor(member)) {
-            throw new ApiException(ErrorCode.FORBIDDEN, "자신의 게시글만 수정할 수 있습니다.");
-        }
+        validateAuthor(article, member, "자신의 게시글만 수정할 수 있습니다.");
         article.update(request);
         articleRepository.save(article);
         return UpdateArticleResponse.from(article);
+    }
+
+    public void delete(Long memberId, Long articleId) {
+        Article article = getArticleById(articleId);
+        Member member = memberService.findById(memberId);
+        validateAuthor(article, member, "자신의 게시글만 삭제할 수 있습니다.");
+        articleRepository.delete(article);
+    }
+
+    private static void validateAuthor(Article article, Member member, String message) {
+        if (!article.isAuthor(member)) {
+            throw new ApiException(ErrorCode.FORBIDDEN, message);
+        }
+    }
+
+    private Article getArticleById(Long articleId) {
+        return articleRepository.findById(articleId)
+                .orElseThrow(() -> new ApiException(ErrorCode.ARTICLE_NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
     }
 }

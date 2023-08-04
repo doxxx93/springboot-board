@@ -36,4 +36,10 @@ public class ArticleController {
     public ResponseEntity<UpdateArticleResponse> update(@PathVariable Long id, @RequestBody @Valid UpdateArticleRequest request) {
         return ResponseEntity.ok(articleService.update(SecurityUtil.getCurrentMemberId(), id, request));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        articleService.delete(SecurityUtil.getCurrentMemberId(), id);
+        return ResponseEntity.noContent().build();
+    }
 }

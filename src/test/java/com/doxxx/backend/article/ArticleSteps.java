@@ -43,4 +43,10 @@ public class ArticleSteps {
                 .body(request.makeBody())
                 .path("/articles/" + id).build());
     }
+
+    public static ExtractableResponse<Response> 게시글삭제요청(final Long id, String accessToken) {
+        return RestAssuredController.doDelete(RequestData.builder()
+                .accessToken(accessToken)
+                .path("/articles/" + id).build());
+    }
 }
