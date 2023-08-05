@@ -15,8 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DisplayName("회원 서비스 테스트")
-@ApiTest
-class MemberServiceTest {
+class MemberServiceTest extends ApiTest{
 
     @Autowired
     private TokenProvider tokenProvider;

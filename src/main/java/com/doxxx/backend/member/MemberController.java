@@ -12,7 +12,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/members")
-public class MemberController {
+public class MemberController implements MemberSpecification {
 
     private final MemberService memberService;
 

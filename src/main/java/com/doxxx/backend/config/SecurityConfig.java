@@ -3,7 +3,6 @@ package com.doxxx.backend.config;
 import com.doxxx.backend.jwt.JwtAccessDeniedHandler;
 import com.doxxx.backend.jwt.JwtAuthenticationEntryPoint;
 import com.doxxx.backend.jwt.JwtFilter;
-import com.doxxx.backend.member.Member;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,10 +18,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.OPTIONS;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private static final String[] SWAGGER_URI = {"/v3/api-docs/**", "/swagger-ui/**"};
+    private static final String MEMBER_URI = "/members";
+    private static final String ARTICLE_URI = "/articles";
     private final JwtFilter jwtFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
@@ -55,8 +59,14 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST,"/articles/**").hasAuthority(Member.Authority.ROLE_MEMBER.name())
-                        .anyRequest().permitAll()
+                        .requestMatchers(SWAGGER_URI).permitAll()
+                        .requestMatchers(OPTIONS).permitAll()
+                        .requestMatchers(HttpMethod.POST, MEMBER_URI).permitAll()
+                        .requestMatchers(HttpMethod.POST, ARTICLE_URI).authenticated()
+                        .requestMatchers(HttpMethod.PUT, ARTICLE_URI).authenticated()
+                        .requestMatchers(HttpMethod.DELETE, ARTICLE_URI).authenticated()
+                        .requestMatchers(HttpMethod.GET).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

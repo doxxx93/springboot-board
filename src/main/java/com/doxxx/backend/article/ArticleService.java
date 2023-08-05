@@ -23,8 +23,7 @@ public class ArticleService {
         return CreateArticleResponse.from(article);
     }
 
-    public GetArticleListResponse list(GetArticleListRequest request) {
-        Pageable pageable = Pageable.ofSize(request.size()).withPage(request.page());
+    public GetArticleListResponse list(Pageable pageable) {
         return GetArticleListResponse.from(articleRepository.findAll(pageable));
     }
 

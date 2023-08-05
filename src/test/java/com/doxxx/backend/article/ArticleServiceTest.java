@@ -17,8 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 
 @DisplayName("게시글 서비스 테스트")
-@ApiTest
-public class ArticleServiceTest {
+public class ArticleServiceTest extends ApiTest {
 
     @Autowired
     ArticleService articleService;
