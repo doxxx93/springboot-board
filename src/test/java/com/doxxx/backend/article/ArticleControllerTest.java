@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -107,14 +108,10 @@ public class ArticleControllerTest extends ApiTest{
         @Test
         @DisplayName("성공")
         void findAllSuccess() {
-            final int page = 0;
-            final int size = 10;
-            final var request = ArticleSteps.게시글리스트조회요청_생성(page, size);
-
-            final var response = ArticleSteps.게시글리스트조회요청(request);
+            final var response = ArticleSteps.게시글리스트조회요청(Pageable.ofSize(10));
             long count = articleRepository.count();
             assertThat(response.statusCode()).isEqualTo(200);
-            assertThat(response.jsonPath().getList("articleList").size()).isEqualTo(count % size);
+            assertThat(response.jsonPath().getList("articleList").size()).isEqualTo((int) count);
         }
     }
 

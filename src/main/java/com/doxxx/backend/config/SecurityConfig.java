@@ -25,8 +25,8 @@ import static org.springframework.http.HttpMethod.OPTIONS;
 public class SecurityConfig {
 
     private static final String[] SWAGGER_URI = {"/v3/api-docs/**", "/swagger-ui/**"};
-    private static final String MEMBER_URI = "/members";
-    private static final String ARTICLE_URI = "/articles";
+    private static final String MEMBER_URI = "/members/**";
+    private static final String ARTICLE_URI = "/articles/**";
     private final JwtFilter jwtFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;

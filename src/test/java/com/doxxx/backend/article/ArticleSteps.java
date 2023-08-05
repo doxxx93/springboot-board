@@ -4,6 +4,9 @@ import com.doxxx.backend.RequestData;
 import com.doxxx.backend.RestAssuredController;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.springframework.data.domain.Pageable;
+
+import java.util.HashMap;
 
 public class ArticleSteps {
 
@@ -18,13 +21,17 @@ public class ArticleSteps {
                 .path("/articles").build());
     }
 
-    public static GetArticleListRequest 게시글리스트조회요청_생성(final int page, final int size) {
-        return new GetArticleListRequest(page, size);
-    }
 
-    public static ExtractableResponse<Response> 게시글리스트조회요청(final GetArticleListRequest request) {
+    public static ExtractableResponse<Response> 게시글리스트조회요청(Pageable pageable) {
         return RestAssuredController.doGet(RequestData.builder()
-                .queryParams(request.makeQueryParams())
+                .queryParams(
+                        new HashMap<>() {
+                            {
+                                put("page", String.valueOf(pageable.getPageNumber()));
+                                put("size", String.valueOf(pageable.getPageSize()));
+                            }
+                        }
+                )
                 .path("/articles").build());
     }
 
