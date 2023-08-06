@@ -3,7 +3,6 @@ package com.doxxx.backend.article;
 import com.doxxx.backend.util.SecurityUtil;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +24,7 @@ public class ArticleController implements ArticleSpecification {
     }
 
     @GetMapping("")
-    public ResponseEntity<GetArticleListResponse> list(@PageableDefault Pageable pageable) {
+    public ResponseEntity<GetArticleListResponse> list(Pageable pageable) {
         return ResponseEntity.ok(articleService.list(pageable));
     }
 
