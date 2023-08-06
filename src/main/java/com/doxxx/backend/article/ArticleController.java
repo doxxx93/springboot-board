@@ -1,6 +1,7 @@
 package com.doxxx.backend.article;
 
 import com.doxxx.backend.util.SecurityUtil;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -29,17 +30,17 @@ public class ArticleController implements ArticleSpecification {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetArticleResponse> get(@PathVariable Long id) {
+    public ResponseEntity<GetArticleResponse> get(@PathVariable @Schema(description = "게시글 id", example = "1", requiredMode = Schema.RequiredMode.REQUIRED) Long id) {
         return ResponseEntity.ok(articleService.get(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateArticleResponse> update(@PathVariable Long id, @RequestBody @Valid UpdateArticleRequest request) {
+    public ResponseEntity<UpdateArticleResponse> update(@PathVariable @Schema(description = "게시글 id", example = "1", requiredMode = Schema.RequiredMode.REQUIRED) Long id, @RequestBody @Valid UpdateArticleRequest request) {
         return ResponseEntity.ok(articleService.update(SecurityUtil.getCurrentMemberId(), id, request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable @Schema(description = "게시글 id", example = "1", requiredMode = Schema.RequiredMode.REQUIRED) Long id) {
         articleService.delete(SecurityUtil.getCurrentMemberId(), id);
         return ResponseEntity.noContent().build();
     }
