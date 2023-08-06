@@ -34,7 +34,8 @@
 
 ## 시연 영상
 
-[링크](https://drive.google.com/file/d/1ZBQkm1RTvkbu3Bnw43OR6EuGtwBxZxIV/view?usp=drive_link)
+[링크](https://drive.google.com/file/d/1ZBQkm1RTvkbu3Bnw43OR6EuGtwBxZxIV/view?usp=sharing)
+
 
 ## ERD
 
