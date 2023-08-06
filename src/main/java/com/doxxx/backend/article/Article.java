@@ -1,5 +1,6 @@
 package com.doxxx.backend.article;
 
+import com.doxxx.backend.dto.article.UpdateArticleRequest;
 import com.doxxx.backend.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;

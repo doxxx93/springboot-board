@@ -1,9 +1,12 @@
 package com.doxxx.backend.member;
 
 import com.doxxx.backend.ApiTest;
+import com.doxxx.backend.dto.member.SignInRequest;
+import com.doxxx.backend.dto.member.SignUpRequest;
+import com.doxxx.backend.dto.member.SignUpResponse;
+import com.doxxx.backend.dto.member.TokenResponse;
+import com.doxxx.backend.exception.ApiException;
 import com.doxxx.backend.jwt.TokenProvider;
-import com.doxxx.backend.token.TokenResponse;
-import com.doxxx.backend.web.exception.ApiException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DisplayName("회원 서비스 테스트")
-class MemberServiceTest extends ApiTest{
+class MemberServiceTest extends ApiTest {
 
     @Autowired
     private TokenProvider tokenProvider;

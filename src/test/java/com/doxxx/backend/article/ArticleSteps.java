@@ -2,6 +2,8 @@ package com.doxxx.backend.article;
 
 import com.doxxx.backend.RequestData;
 import com.doxxx.backend.RestAssuredController;
+import com.doxxx.backend.dto.article.CreateArticleRequest;
+import com.doxxx.backend.dto.article.UpdateArticleRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.springframework.data.domain.Pageable;

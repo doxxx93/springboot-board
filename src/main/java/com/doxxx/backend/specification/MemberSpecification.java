@@ -1,6 +1,9 @@
-package com.doxxx.backend.member;
+package com.doxxx.backend.specification;
 
-import com.doxxx.backend.token.TokenResponse;
+import com.doxxx.backend.dto.member.SignInRequest;
+import com.doxxx.backend.dto.member.SignUpRequest;
+import com.doxxx.backend.dto.member.SignUpResponse;
+import com.doxxx.backend.dto.member.TokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

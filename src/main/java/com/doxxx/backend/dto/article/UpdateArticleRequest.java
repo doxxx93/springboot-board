@@ -1,4 +1,4 @@
-package com.doxxx.backend.article;
+package com.doxxx.backend.dto.article;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

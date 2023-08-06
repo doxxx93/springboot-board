@@ -1,9 +1,12 @@
 package com.doxxx.backend.member;
 
+import com.doxxx.backend.dto.member.SignInRequest;
+import com.doxxx.backend.dto.member.SignUpRequest;
+import com.doxxx.backend.dto.member.SignUpResponse;
+import com.doxxx.backend.dto.member.TokenResponse;
+import com.doxxx.backend.exception.ApiException;
+import com.doxxx.backend.exception.ErrorCode;
 import com.doxxx.backend.jwt.TokenProvider;
-import com.doxxx.backend.token.TokenResponse;
-import com.doxxx.backend.web.exception.ApiException;
-import com.doxxx.backend.web.exception.ErrorCode;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;

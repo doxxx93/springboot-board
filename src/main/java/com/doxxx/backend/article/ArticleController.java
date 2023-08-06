@@ -1,5 +1,7 @@
 package com.doxxx.backend.article;
 
+import com.doxxx.backend.dto.article.*;
+import com.doxxx.backend.specification.ArticleSpecification;
 import com.doxxx.backend.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;

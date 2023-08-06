@@ -1,4 +1,4 @@
-package com.doxxx.backend.web.exception;
+package com.doxxx.backend.exception;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
-    protected ResponseEntity<ErrorResponse> handleRecycleException(ApiException ex) {
+    protected ResponseEntity<ErrorResponse> handleApiException(ApiException ex) {
         logger.error(ex);
         return ResponseEntity.status(ex.getHttpStatus()).body(ErrorResponse.builder().code(ex.getErrorCode()).message(ex.getMessage()).build());
     }

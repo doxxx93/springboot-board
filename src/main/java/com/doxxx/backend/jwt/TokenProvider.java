@@ -1,6 +1,6 @@
 package com.doxxx.backend.jwt;
 
-import com.doxxx.backend.token.TokenResponse;
+import com.doxxx.backend.dto.member.TokenResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

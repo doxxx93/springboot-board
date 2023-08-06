@@ -4,7 +4,7 @@ package com.doxxx.backend.article;
 import com.doxxx.backend.ApiTest;
 import com.doxxx.backend.member.Member;
 import com.doxxx.backend.member.MemberRepository;
-import com.doxxx.backend.web.exception.ApiException;
+import com.doxxx.backend.exception.ApiException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -1,5 +1,6 @@
-package com.doxxx.backend.article;
+package com.doxxx.backend.dto.article;
 
+import com.doxxx.backend.article.Article;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 

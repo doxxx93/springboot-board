@@ -1,9 +1,10 @@
 package com.doxxx.backend.article;
 
+import com.doxxx.backend.dto.article.*;
 import com.doxxx.backend.member.Member;
 import com.doxxx.backend.member.MemberService;
-import com.doxxx.backend.web.exception.ApiException;
-import com.doxxx.backend.web.exception.ErrorCode;
+import com.doxxx.backend.exception.ApiException;
+import com.doxxx.backend.exception.ErrorCode;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

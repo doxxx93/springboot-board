@@ -1,6 +1,10 @@
 package com.doxxx.backend.member;
 
-import com.doxxx.backend.token.TokenResponse;
+import com.doxxx.backend.dto.member.SignInRequest;
+import com.doxxx.backend.dto.member.SignUpRequest;
+import com.doxxx.backend.dto.member.SignUpResponse;
+import com.doxxx.backend.specification.MemberSpecification;
+import com.doxxx.backend.dto.member.TokenResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

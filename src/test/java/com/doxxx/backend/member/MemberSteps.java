@@ -2,6 +2,8 @@ package com.doxxx.backend.member;
 
 import com.doxxx.backend.RequestData;
 import com.doxxx.backend.RestAssuredController;
+import com.doxxx.backend.dto.member.SignInRequest;
+import com.doxxx.backend.dto.member.SignUpRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 

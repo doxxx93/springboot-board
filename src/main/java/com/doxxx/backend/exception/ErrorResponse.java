@@ -1,4 +1,4 @@
-package com.doxxx.backend.web.exception;
+package com.doxxx.backend.exception;
 
 
 import lombok.Builder;
