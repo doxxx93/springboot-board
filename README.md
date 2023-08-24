@@ -1,11 +1,6 @@
-# wanted-pre-onboarding-backend
+# springboot-board
 
-원티드 프리온보딩 백엔드 인턴십 과제
-
-## 소개
-
-- 김도율
-- doxxx93@gmail.com
+스프링부트로 만드는 게시판
 
 ## 개발 환경
 
@@ -31,11 +26,6 @@
 - AWS S3 Bucket
 - AWS EC2(Ubuntu 22.04)
 - AWS RDS(MySQL 8.0)
-
-## 시연 영상
-
-[링크](https://drive.google.com/file/d/1ZBQkm1RTvkbu3Bnw43OR6EuGtwBxZxIV/view?usp=sharing)
-
 
 ## ERD
 
